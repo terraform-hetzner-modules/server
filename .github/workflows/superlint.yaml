@@ -25,6 +25,6 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FILTER_REGEX_EXCLUDE: (CHANGELOG.md|.*.mod|.*.sum)
+          FILTER_REGEX_EXCLUDE: (CHANGELOG.md)
           # mostly false positives
           VALIDATE_NATURAL_LANGUAGE: false

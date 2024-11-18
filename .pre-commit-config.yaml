@@ -19,8 +19,9 @@ repos:
     rev: v1.24.6
     hooks:
       - id: typos
+        args: ["--config", ".github/linters/typos.toml"]
   - repo: https://github.com/terraform-docs/terraform-docs
     rev: "v0.19.0"
     hooks:
       - id: terraform-docs-go
-        args: [ "markdown", "table", "--output-file", "README.md", "." ]
+        args: ["-c", ".github/linters/.terraform-docs.yml", "."]

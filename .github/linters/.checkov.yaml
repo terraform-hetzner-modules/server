@@ -1,0 +1,11 @@
+skip-check:
+  # Terraform module sources do not use a git url with a commit hash revision
+  # ref: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/supply-chain-policies/terraform-policies/ensure-terraform-module-sources-use-git-url-with-commit-hash-revision
+  - CKV_TF_1
+
+  # Terraform module sources do not use a git url with a tag or commit hash revision
+  # ref: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/supply-chain-policies/terraform-policies/ensure-terraform-module-sources-use-tag
+  - CKV_TF_2
+
+skip-path:
+  - /examples
