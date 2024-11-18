@@ -1,0 +1,114 @@
+name: "Testing"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: "${{ github.workflow }}@${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+
+jobs:
+  test:
+    name: Test
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        terraform_version: [1.7, 1.8, 1.9]
+    env:
+      GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }} # https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md#avoiding-rate-limiting
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '~${{ matrix.terraform_version }}'
+
+      - name: Set up TFLint
+        uses: terraform-linters/setup-tflint@v4
+        with:
+          github_token: ${{ env.GITHUB_TOKEN }}
+          tflint_version: 'v0.53.0'
+
+      - name: Cache TFLint plugins
+        uses: actions/cache@v4
+        with:
+          path: ~/.tflint.d/plugins
+          key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
+
+      - name: Cache Terraform dependencies
+        uses: actions/cache@v4
+        with:
+          path: .terraform
+          key: ${{ matrix.os }}-terraform-${{ hashFiles('versions.tf') }}
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Init TFLint
+        run: tflint --init
+
+      - name: Run TFLint
+        id: tflint
+        run: tflint -f compact
+
+      - name: Render Terraform docs
+        uses: terraform-docs/gh-actions@main
+        if: ${{ steps.tflint.outputs.exitcode == 0 }}
+        with:
+          working-dir: .
+          output-file: README.md
+          output-method: inject
+          git-push: "true"
+
+  dispatch:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+    needs: [test]
+    steps:
+      - name: Dispatch a release workflow run
+        if: ${{ always() && contains(join(needs.*.result, ','), 'success') }} # ref: https://github.com/actions/runner/issues/1251
+        uses: actions/github-script@v7
+        with:
+          github-token: "${{ env.GITHUB_TOKEN }}"
+          script: |
+            const payload = {
+              run_id: "${{ github.run_id }}",
+              sha: "${{ github.sha }}"
+            }
+
+            console.log("Sending event payload", JSON.stringify(payload, null, 2));
+
+            const { owner, repo } = context.repo;
+            await github.rest.repos.createDispatchEvent({
+              owner,
+              repo,
+              event_type: 'release',
+              client_payload: payload
+            });

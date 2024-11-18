@@ -1,0 +1,43 @@
+name: "Release"
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [release]
+  pull_request:
+    branches:
+      - "main"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: "${{ github.workflow }}@${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          semantic_version: 24
+          branches: |
+            [
+              'main',
+              'next'
+            ]
+          extra_plugins: |
+            @semantic-release/changelog@6.0.3
+            @semantic-release/git@10.0.1
+            conventional-changelog-conventionalcommits@8.0.0

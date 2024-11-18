@@ -1,0 +1,27 @@
+#######################################
+# EDITORS
+#######################################
+
+# IntelliJ IDEA
+.idea/*
+
+# JetBrains Fleet
+.fleet/*
+
+# VS Code
+.vscode/*
+
+#######################################
+# MISCELLANEOUS
+#######################################
+
+# Distribution folder
+dist/*
+build/*
+
+# Coverage tool output
+*.out
+
+# Terraform dependencies
+.terraform/*
+.tflint/*
