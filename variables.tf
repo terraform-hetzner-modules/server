@@ -91,10 +91,16 @@ variable "enable_protection" {
   default     = false
 }
 
+variable "allow_deprecated_images" {
+  type        = bool
+  description = "Enable the use of deprecated images. NOTE: Deprecated images will be removed after three months."
+  default     = false
+}
+
 variable "shutdown_before_deletion" {
   type        = bool
   description = "Shutdown the server gracefully before deleting it."
-  default     = false
+  default     = true
 }
 
 # -------------------------------------

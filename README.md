@@ -29,6 +29,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_allow_deprecated_images"></a> [allow\_deprecated\_images](#input\_allow\_deprecated\_images) | Enable the use of deprecated images. NOTE: Deprecated images will be removed after three months. | `bool` | `false` | no |
 | <a name="input_backups"></a> [backups](#input\_backups) | Whether or not to enable Hetzner's automatic backups. | `bool` | `false` | no |
 | <a name="input_cloud_init"></a> [cloud\_init](#input\_cloud\_init) | The cloud\_init configuration to render the template with. | ```object({ gzip = bool base64_encode = bool config = any })``` | ```{ "base64_encode": true, "config": {}, "gzip": true }``` | no |
 | <a name="input_create_server"></a> [create\_server](#input\_create\_server) | Whether or not to create a Server. This is true by default of course. | `bool` | `true` | no |
@@ -45,7 +46,7 @@ No modules.
 | <a name="input_placement_group_id"></a> [placement\_group\_id](#input\_placement\_group\_id) | The ID of a placement group to attach to the server. | `string` | `null` | no |
 | <a name="input_private_network"></a> [private\_network](#input\_private\_network) | The private network to attach the server to on creation. | `any` | `{}` | no |
 | <a name="input_rescue"></a> [rescue](#input\_rescue) | If specified the system will boot into the given rescue system to allow for easy installation of custom operating systems. | `string` | `null` | no |
-| <a name="input_shutdown_before_deletion"></a> [shutdown\_before\_deletion](#input\_shutdown\_before\_deletion) | Shutdown the server gracefully before deleting it. | `bool` | `false` | no |
+| <a name="input_shutdown_before_deletion"></a> [shutdown\_before\_deletion](#input\_shutdown\_before\_deletion) | Shutdown the server gracefully before deleting it. | `bool` | `true` | no |
 | <a name="input_ssh_keys"></a> [ssh\_keys](#input\_ssh\_keys) | A list of SSH key names or IDs, which should be injeted into the server at creation. None are injected by default. | `list(string)` | `[]` | no |
 | <a name="input_type"></a> [type](#input\_type) | The type of server to create. See the output of Hetzner's CLI hcloud command 'server-type list' for reference. | `string` | n/a | yes |
 
@@ -53,7 +54,6 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_backup_window"></a> [backup\_window](#output\_backup\_window) | The new server's backup window, if enabled. |
 | <a name="output_backups"></a> [backups](#output\_backups) | The new server's automatic backup setting (boolean). |
 | <a name="output_datacenter"></a> [datacenter](#output\_datacenter) | The datacenter the new Hetzner Cloud server is provisioned in. |
 | <a name="output_delete_protection"></a> [delete\_protection](#output\_delete\_protection) | Whether or not deletion protection is enabled for the server. |

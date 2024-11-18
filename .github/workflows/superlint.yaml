@@ -28,3 +28,6 @@ jobs:
           FILTER_REGEX_EXCLUDE: (CHANGELOG.md)
           # mostly false positives
           VALIDATE_NATURAL_LANGUAGE: false
+          # no support for preconditions in lifecycles
+          # ref: https://github.com/tenable/terrascan/issues/1642
+          VALIDATE_TERRAFORM_TERRASCAN: false

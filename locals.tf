@@ -15,7 +15,7 @@ locals {
   is_x86 = contains(local.x86_types, var.type)
   is_arm = contains(local.arm_types, var.type)
 
-  arch = local.is_x86 ? "x86" : "arm"
+  arch = local.is_x86 ? "x86" : local.is_arm ? "arm" : "x86"
 }
 
 data "hcloud_image" "os" {

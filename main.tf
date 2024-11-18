@@ -14,7 +14,7 @@ data "cloudinit_config" "cloud_config" {
 }
 
 #--------------------------------------
-# Compute Instance
+# Server Data Sources
 #--------------------------------------
 
 data "hcloud_images" "remote_images" {
@@ -29,35 +29,37 @@ data "hcloud_datacenter" "current" {
   name = local.suffixed_datacenter
 }
 
-
+#--------------------------------------
+# Server Instance
+#--------------------------------------
 resource "hcloud_server" "current" {
-  # count = var.create_server ? 1 : 0
+  count = var.create_server ? 1 : 0
 
+  # General configuration
   name        = var.name
   server_type = var.type
   image       = data.hcloud_image.os.id
   location    = var.location
+  user_data   = data.cloudinit_config.cloud_config.rendered
+  ssh_keys    = try(var.ssh_keys, [])
 
-  user_data = data.cloudinit_config.cloud_config.rendered
-
-  ssh_keys = try(var.ssh_keys, [])
-
-  keep_disk = var.keep_disk
-  iso       = var.iso
-  rescue    = var.rescue
-  labels    = var.labels
-
+  # Infrastructure configuration
+  keep_disk                  = var.keep_disk
+  iso                        = var.iso
+  rescue                     = var.rescue
+  labels                     = var.labels
   backups                    = var.backups
   firewall_ids               = var.firewall_ids
   ignore_remote_firewall_ids = var.ignore_remote_firewall_ids
+  placement_group_id         = var.placement_group_id
 
-  placement_group_id = var.placement_group_id
-
+  # Protections
   delete_protection  = var.enable_protection
   rebuild_protection = var.enable_protection
 
-  allow_deprecated_images = false
-  # shutdown_before_deletion = var.shutdown_before_deletion
+  # Shutdown & Initialization
+  allow_deprecated_images  = var.allow_deprecated_images
+  shutdown_before_deletion = var.shutdown_before_deletion
 
   dynamic "public_net" {
     for_each = var.networking != {} ? [1] : []
