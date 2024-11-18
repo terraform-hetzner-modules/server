@@ -18,8 +18,8 @@ module "hetzner_server_apache" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_cloudinit"></a> [cloudinit](#provider\_cloudinit) | 2.3.2 |
-| <a name="provider_hcloud"></a> [hcloud](#provider\_hcloud) | 1.42.1 |
+| <a name="provider_cloudinit"></a> [cloudinit](#provider\_cloudinit) | 2.3.5 |
+| <a name="provider_hcloud"></a> [hcloud](#provider\_hcloud) | 1.49.0 |
 
 ## Modules
 
