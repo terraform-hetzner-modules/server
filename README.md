@@ -16,7 +16,7 @@ module "hetzner_server_apache" {
 ## Providers
 
 | Name                                                               | Version |
-|--------------------------------------------------------------------|---------|
+| ------------------------------------------------------------------ | ------- |
 | <a name="provider_cloudinit"></a> [cloudinit](#provider_cloudinit) | ~> 2.3  |
 | <a name="provider_hcloud"></a> [hcloud](#provider_hcloud)          | ~> 1.49 |
 
@@ -27,7 +27,7 @@ No modules.
 ## Inputs
 
 | Name                                                                                                            | Description                                                                                                                                                                                               | Type                                                        | Default                                                 | Required |
-|-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|---------------------------------------------------------|:--------:|
+| --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------- | :------: |
 | <a name="input_allow_deprecated_images"></a> [allow_deprecated_images](#input_allow_deprecated_images)          | Enable the use of deprecated images. NOTE: Deprecated images will be removed after three months.                                                                                                          | `bool`                                                      | `false`                                                 |    no    |
 | <a name="input_backups"></a> [backups](#input_backups)                                                          | Whether or not to enable Hetzner's automatic backups.                                                                                                                                                     | `bool`                                                      | `false`                                                 |    no    |
 | <a name="input_cloud_init"></a> [cloud_init](#input_cloud_init)                                                 | The cloud_init configuration to render the template with.                                                                                                                                                 | `object({ gzip = bool base64_encode = bool config = any })` | `{ "base64_encode": true, "config": {}, "gzip": true }` |    no    |
@@ -52,7 +52,7 @@ No modules.
 ## Outputs
 
 | Name                                                                                      | Description                                                    |
-|-------------------------------------------------------------------------------------------|----------------------------------------------------------------|
+| ----------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
 | <a name="output_backups"></a> [backups](#output_backups)                                  | The new server's automatic backup setting (boolean).           |
 | <a name="output_datacenter"></a> [datacenter](#output_datacenter)                         | The datacenter the new Hetzner Cloud server is provisioned in. |
 | <a name="output_delete_protection"></a> [delete_protection](#output_delete_protection)    | Whether or not deletion protection is enabled for the server.  |
