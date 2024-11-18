@@ -86,7 +86,7 @@ for more information. You may also use the linked contact details to reach out d
 
 ### ©️ Copyright
 
-- _Assets provided by:_ **[HashCorp][hashicorp]**
+- _Assets provided by:_ **[HashiCorp][hashicorp]**
 - _Sources provided by:_ **[FMJ Studios][org]** under the **[MIT License][license]**
 
 <!-- INTERNAL REFERENCES -->

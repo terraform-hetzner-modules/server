@@ -1,2 +1,9 @@
+[default]
+extend-ignore-identifiers-re = ["hel.*", "Hashi.*"]
+
+[default.extend-identifiers]
+HashiCorp = "HashiCorp"
+
 [default.extend-words]
-hel = "hel" # do not correct the 'hel' designation the Helsinki datacenter
+hel = "hel"             # do not correct the 'hel' designation the Helsinki datacenter
+HashiCorp = "HashiCorp" # do not correct HashiCorp
