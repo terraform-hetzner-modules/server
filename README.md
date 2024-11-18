@@ -14,6 +14,14 @@ module "hetzner_server_apache" {
 ```
 
 <!-- BEGIN_TF_DOCS -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_cloudinit"></a> [cloudinit](#requirement\_cloudinit) | ~> 2.3 |
+| <a name="requirement_hcloud"></a> [hcloud](#requirement\_hcloud) | ~> 1.49 |
+
 ## Providers
 
 | Name | Version |
@@ -25,13 +33,24 @@ module "hetzner_server_apache" {
 
 No modules.
 
+## Resources
+
+| Name | Type |
+|------|------|
+| [hcloud_server.current](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/server) | resource |
+| [cloudinit_config.cloud_config](https://registry.terraform.io/providers/hashicorp/cloudinit/latest/docs/data-sources/config) | data source |
+| [hcloud_datacenter.current](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/data-sources/datacenter) | data source |
+| [hcloud_image.os](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/data-sources/image) | data source |
+| [hcloud_images.remote_images](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/data-sources/images) | data source |
+| [hcloud_server_type.current_type](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/data-sources/server_type) | data source |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_allow_deprecated_images"></a> [allow\_deprecated\_images](#input\_allow\_deprecated\_images) | Enable the use of deprecated images. NOTE: Deprecated images will be removed after three months. | `bool` | `false` | no |
 | <a name="input_backups"></a> [backups](#input\_backups) | Whether or not to enable Hetzner's automatic backups. | `bool` | `false` | no |
-| <a name="input_cloud_init"></a> [cloud\_init](#input\_cloud\_init) | The cloud\_init configuration to render the template with. | ```object({ gzip = bool base64_encode = bool config = any })``` | ```{ "base64_encode": true, "config": {}, "gzip": true }``` | no |
+| <a name="input_cloud_init"></a> [cloud\_init](#input\_cloud\_init) | The cloud\_init configuration to render the template with. | <pre>object({<br/>    gzip          = bool<br/>    base64_encode = bool<br/>    config        = any<br/>  })</pre> | <pre>{<br/>  "base64_encode": true,<br/>  "config": {},<br/>  "gzip": true<br/>}</pre> | no |
 | <a name="input_create_server"></a> [create\_server](#input\_create\_server) | Whether or not to create a Server. This is true by default of course. | `bool` | `true` | no |
 | <a name="input_enable_protection"></a> [enable\_protection](#input\_enable\_protection) | Enable Hetzners 'rebuild' and 'delete' protection. | `bool` | `false` | no |
 | <a name="input_firewall_ids"></a> [firewall\_ids](#input\_firewall\_ids) | A list of firewall IDs that should be attached to the server on creation. | `list(string)` | `[]` | no |
