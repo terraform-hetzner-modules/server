@@ -15,13 +15,13 @@ variable "image" {
 
 variable "location" {
   type        = string
-  description = "The datacenter location to create the new machine in. Can be one of the following: 'nbg1', 'fsn1', 'hel1', 'ash' or 'hil'. Default is 'fsn1'."
+  description = "The data center location to create the new machine in. Can be one of the following: 'nbg1', 'fsn1', 'hel1', 'ash' or 'hil'. Default is 'fsn1'."
   default     = "fsn1"
 }
 
 variable "ssh_keys" {
   type        = list(string)
-  description = "A list of SSH key names or IDs, which should be injeted into the server at creation. None are injected by default."
+  description = "A list of SSH key names or IDs, which should be injected into the server at creation. None are injected by default."
   default     = []
 }
 
@@ -79,15 +79,15 @@ variable "private_network" {
   default     = {}
 }
 
-variable "placement_group_id" {
-  type        = string
-  description = "The ID of a placement group to attach to the server."
-  default     = null
-}
+# variable "placement_group_id" {
+#   type        = string
+#   description = "The ID of a placement group to attach to the server."
+#   default     = null
+# }
 
 variable "enable_protection" {
   type        = bool
-  description = "Enable Hetzners 'rebuild' and 'delete' protection."
+  description = "Enable Hetzner's 'rebuild' and 'delete' protection."
   default     = false
 }
 
@@ -111,6 +111,19 @@ variable "create_server" {
   type        = bool
   description = "Whether or not to create a Server. This is true by default of course."
   default     = true
+}
+
+variable "placement_group" {
+  type = object({
+    enabled = bool
+    name    = optional(string)
+    type    = optional(string)
+    labels  = optional(map(string))
+  })
+  default = {
+    enabled = false
+  }
+  description = "Configuration for a placement group to be attached to the server."
 }
 
 variable "cloud_init" {

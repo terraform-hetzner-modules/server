@@ -1,6 +1,6 @@
-#--------------------------------------
+# ------------------------------------------
 # Cloud-Init configuration
-#--------------------------------------
+# ------------------------------------------
 
 data "cloudinit_config" "cloud_config" {
   gzip          = var.cloud_init["gzip"]
@@ -13,9 +13,9 @@ data "cloudinit_config" "cloud_config" {
   }
 }
 
-#--------------------------------------
+# ------------------------------------------
 # Server Data Sources
-#--------------------------------------
+# ------------------------------------------
 
 data "hcloud_images" "remote_images" {
   with_architecture = [local.arch]
@@ -29,9 +29,9 @@ data "hcloud_datacenter" "current" {
   name = local.suffixed_datacenter
 }
 
-#--------------------------------------
+# ------------------------------------------
 # Server Instance
-#--------------------------------------
+# ------------------------------------------
 resource "hcloud_server" "current" {
   count = var.create_server ? 1 : 0
 
@@ -51,7 +51,7 @@ resource "hcloud_server" "current" {
   backups                    = var.backups
   firewall_ids               = var.firewall_ids
   ignore_remote_firewall_ids = var.ignore_remote_firewall_ids
-  placement_group_id         = var.placement_group_id
+  placement_group_id         = var.placement_group.enabled ? module.placement_group.id : null
 
   # Protections
   delete_protection  = var.enable_protection
@@ -95,4 +95,13 @@ resource "hcloud_server" "current" {
       error_message = "The Hetzner Cloud location you chose does not support the server type you chose! Please switch to another server type or location to continue."
     }
   }
+}
+
+module "placement_group" {
+  source = "modules/placement-group"
+  count  = var.placement_group.enabled ? 1 : 0
+
+  name   = var.placement_group.name
+  type   = var.placement_group.type
+  labels = var.placement_group.labels
 }
