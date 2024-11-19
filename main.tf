@@ -98,7 +98,7 @@ resource "hcloud_server" "current" {
 }
 
 module "placement_group" {
-  source = "modules/placement-group"
+  source = "./modules/placement-group"
   count  = var.placement_group.enabled ? 1 : 0
 
   name   = var.placement_group.name
